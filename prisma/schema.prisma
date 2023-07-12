@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId // mapping objects 
+  name String?
+  email String? @unique
+  emailVerified DateTime? 
+  image String? 
+  hashedPassword String?  //optional instead of required due to social media log-in. Social media login does not have hashedpassword 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt //@ are objects 
+  favoriteIds String[] @db.ObjectId //push arrays of ids everytime we favorite a listing 
+
+
+  // relation to other models 
+  accounts Account[]  //user can have many accounts, need to create an Account model 
+  listings Listing[] 
+  reservations Reservation[] //user can have many reservations
+} 
+
+// account model used to social login. Need to have exact field otherwise social log in will not work 
+model Account {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  type String
+  provider String 
+  providerAccountId String
+  refresh_token String? @db.String 
+  access_token String? @db.String
+  expires_at Int? 
+  token_type String? 
+  scope String? 
+  id_token String? @db.String
+  session_state String? 
+
+  user User @relation( fields: [userId], references: [id], onDelete: Cascade) //relation with user using the field userID on account, references to user model ID field
+  @@unique([provider, providerAccountId]) //need unique combination of these 2 field 
+}
+
+model Listing {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String 
+  description String 
+  imageSrc String 
+  createdAt DateTime @default(now())
+  category String 
+  roomCount Int
+  bathroomCount Int 
+  guestCount Int
+  locationValue String
+  userId String @db.ObjectId
+  price Int
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reservaton Reservation[]
+}
+
+model Reservation { 
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  listingId String @db.ObjectId
+  startDate DateTime
+  endDate DateTime
+  totalPrice Int 
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade )
+}
