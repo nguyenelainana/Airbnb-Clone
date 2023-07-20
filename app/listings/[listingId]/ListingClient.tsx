@@ -92,7 +92,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   //change total price depending on how user select the dates. Notice everytime there is a change in calendar, count how many days selected and time that with listing price
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
-      const dayCount = CalendarDays(
+      const dayCount = differenceInCalendarDays(
         dateRange.endDate,
         dateRange.startDate
       );
