@@ -19,7 +19,7 @@ import { IoDiamond } from "react-icons/io5";
 import CategoryBox from "../CategoryBox";
 import { useSearchParams, usePathname } from "next/navigation";
 
-//create a new const onject that will be used in other places
+//create a new const object that will be used in other places
 export const categories = [
   {
     label: "Beach",
@@ -69,12 +69,12 @@ export const categories = [
   {
     label: "Camping",
     icon: GiForestCamp,
-    description: "This property has camping activies!",
+    description: "This property has camping activities!",
   },
   {
     label: "Artic",
     icon: BsSnow,
-    description: "This property has camping activies!",
+    description: "This property has camping activities!",
   },
   {
     label: "Cave",
