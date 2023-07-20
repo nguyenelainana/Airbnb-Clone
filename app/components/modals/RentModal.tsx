@@ -270,6 +270,7 @@ const RentModal = () => {
       isOpen={rentModal.isOpen}
       onClose={rentModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
+      disabled={isLoading}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack} //check if we are on the first step, undefined bc there is nothing to offer the user. Otherwise we offer onBack

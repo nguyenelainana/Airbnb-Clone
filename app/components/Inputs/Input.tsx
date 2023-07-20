@@ -49,8 +49,8 @@ const Input: React.FC<InputProps> = ({
           rounded-md
           outline-none
           transition 
-          disabled: opacity:70
-          disabled: cursor-not-allowed
+        ${disabled ? "disabled: opacity:70" : ""}
+        ${disabled ? "disabled: cursor-not-allowed" : ""}
         ${formatPrice ? "pl-9" : "pl-4"}
         ${errors[id] ? "border-rose-500" : "border-neutral-300"} 
         ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}`}
