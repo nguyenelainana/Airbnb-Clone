@@ -102,7 +102,7 @@ const Categories = () => {
   const params = useSearchParams(); //hook
   // extract categories from this paras
   const category = params?.get("category");
-  //hide this category box on favories or listing using path name to limit its appearance
+  //hide this category box on favorites or listing using path name to limit its appearance
   const pathname = usePathname();
   const isMainPage = pathname === "/";
 
@@ -119,7 +119,7 @@ const Categories = () => {
         flex-row
         items-center
         justify-between
-        overlfow-x-auto"
+        overflow-x-auto"
       >
         {categories.map((item) => (
           <CategoryBox
