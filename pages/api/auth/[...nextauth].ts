@@ -3,10 +3,11 @@ import NextAuth, { AuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import prisma from "@/app/libs/prismadb";
 import bcrypt from "bcrypt";
 
-//prisma config file
+import prisma from "@/app/libs/prismadb";
+
+//nextauth config file
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma), //open object and gave it an adapter. Adapter needs to accept prisma clients
   providers: [
@@ -16,16 +17,16 @@ export const authOptions: AuthOptions = {
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE__CLIENT_SECRET as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
         email: { label: "email", type: "text " },
-        password: { lable: "password", type: "password" },
+        password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
-        //async fucntion, pass credentials to us. throw error if no emails or password is inputted
+        //async function, pass credentials to us. throw error if no emails or password is inputted
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid credentials");
         }

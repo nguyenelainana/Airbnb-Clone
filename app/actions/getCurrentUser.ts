@@ -7,13 +7,13 @@ export async function getSession() {
 }
 
 export default async function getCurrentUser() {
-  //direct communication with database through server components not an api call
+  //direct communication with database through server components not an api call/ dont want to throw error to break code
   try {
     //try and catch block
     const session = await getSession(); //setting session from async function created
 
     if (!session?.user?.email) {
-      //if not session, return null
+      //if session doesn't exist, return null
       return null;
     }
 

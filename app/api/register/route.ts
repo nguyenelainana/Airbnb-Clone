@@ -7,6 +7,7 @@ export async function POST(request: Request) {
   const { email, name, password } = body; //extraction fields needed within body
 
   const hashedPassword = await bcrypt.hash(password, 12); //settings to encrypt password
+
   const user = await prisma.user.create({
     data: {
       email,

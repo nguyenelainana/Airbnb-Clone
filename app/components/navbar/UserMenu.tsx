@@ -1,18 +1,16 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import Avatar from "../Avatar";
-import MenuItem from "./MenuItem";
-import { useState } from "react";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { signOut } from "next-auth/react";
-import { SafeUser } from "@/app/types";
 import useRentModal from "@/app/hooks/useRentModal";
-import { useRouter } from "next/navigation";
-// import { BiRegistered } from "react-icons/bi";
-// import RegisterModal from "../modals/RegisterModal";
+import { SafeUser } from "@/app/types";
+import Avatar from "../Avatar";
+import MenuItem from "./MenuItem";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -20,6 +18,7 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const router = useRouter();
+
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const rentModal = useRentModal(); //hooks
