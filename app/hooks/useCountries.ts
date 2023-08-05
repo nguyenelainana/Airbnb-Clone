@@ -1,12 +1,26 @@
 import countries from "world-countries";
+import { Country, State, City } from "country-state-city";
+import { useCallback } from "react";
 
-const formattedCountries = countries.map((country) => ({
+var formattedCountries = countries.map((country) => ({
   value: country.cca2,
   label: country.name.common,
   flag: country.flag,
   latlng: country.latlng,
   region: country.region,
 }));
+
+const usFlag = Country.getCountryByCode("US")?.flag || "";
+
+const formattedStates = State.getStatesOfCountry("US").map((state) => ({
+  value: state.name,
+  flag: usFlag,
+  label: state.name,
+  latlng: [Number(state.latitude), Number(state.longitude)] as [number, number],
+  region: "Americas",
+}));
+
+formattedCountries.push(...formattedStates);
 
 const useCountries = () => {
   const getAll = () => formattedCountries;

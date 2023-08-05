@@ -16,7 +16,7 @@ interface ListingCardProps {
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
-  currentUser?: SafeUser | null; //date object has hydration issues. Use Safeuser to prevent errors
+  currentUser: SafeUser | null; //date object has hydration issues. Use Safeuser to prevent errors
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -73,7 +73,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
     <div
       onClick={() => router.push(`/listings/${data.id}`)}
       className="
-      col-span-1 cursor-pointr group"
+      col-span-1 cursor-pointer group"
     >
       <div className="flex flex-col gap-2 w-full">
         <div
@@ -101,7 +101,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div>
         </div>
         <div className="font-semibold text-lg">
-          {location?.label}, {location?.region}
+          {location?.region}, {location?.label}
         </div>
         <div className="font-light text-neutral-500">
           {reservationDate || data.category}

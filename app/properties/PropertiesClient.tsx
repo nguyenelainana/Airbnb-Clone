@@ -7,13 +7,14 @@ import toast from "react-hot-toast";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
+import Modal from "../components/modals/Modal";
 
 import axios from "axios";
 import { SafeListing, SafeUser } from "../types";
 
 interface PropertiesClientProps {
   listings: SafeListing[];
-  currentUser?: SafeUser | null;
+  currentUser: SafeUser | null;
 }
 
 const PropertiesClient: React.FC<PropertiesClientProps> = ({
@@ -22,25 +23,36 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
 }) => {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState("");
+  const [show, setShow] = useState(false);
 
-  const onCancel = useCallback(
-    (id: string) => {
-      setDeletingId(id);
+  const handleAction = useCallback((id: string) => {
+    setShow(true);
+    setDeletingId(id);
+  }, []);
 
-      axios
-        .delete(`/api/listings/${id}`)
-        .then(() => {
-          toast.success("Property removed");
-          router.refresh();
-        })
-        .catch((error) => {
-          toast.error(error?.response?.data?.error);
-        })
-        .finally(() => {
-          setDeletingId("");
-        });
-    },
-    [router]
+  const handleSubmit = useCallback(() => {
+    axios
+      .delete(`/api/listings/${deletingId}`)
+      .then(() => {
+        toast.success("Property removed");
+        setShow(false);
+        setDeletingId("");
+        router.refresh();
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.error);
+      });
+  }, [router, deletingId]);
+
+  const handleCancel = useCallback(() => {
+    setShow(false);
+    setDeletingId("");
+  }, []);
+
+  const bodyContent = (
+    <div className="justify-left">
+      <p> Are you sure you want to delete this property? </p>
+    </div>
   );
 
   return (
@@ -63,12 +75,22 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
             key={listing.id}
             data={listing}
             actionId={listing.id}
-            onAction={onCancel}
+            onAction={handleAction}
             disabled={deletingId === listing.id}
             actionLabel="Delete property"
             currentUser={currentUser}
           />
         ))}
+        <Modal
+          isOpen={show}
+          onClose={handleCancel}
+          onSubmit={handleSubmit}
+          title="Delete confirmation"
+          body={bodyContent}
+          actionLabel="Delete"
+          secondaryActionLabel="No"
+          secondaryAction={handleCancel}
+        />
       </div>
     </Container>
   );

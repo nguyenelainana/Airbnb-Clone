@@ -10,10 +10,11 @@ import ListingCard from "../components/listings/ListingCard";
 
 import axios from "axios";
 import { SafeReservation, SafeUser } from "../types";
+import Modal from "../components/modals/Modal";
 
 interface TripsClientProps {
   reservations: SafeReservation[];
-  currentUser?: SafeUser | null;
+  currentUser: SafeUser | null;
 }
 
 const TripsClient: React.FC<TripsClientProps> = ({
@@ -21,26 +22,37 @@ const TripsClient: React.FC<TripsClientProps> = ({
   currentUser,
 }) => {
   const router = useRouter();
+  const [show, setShow] = useState(false);
   const [deletingId, setDeletingId] = useState("");
 
-  const onCancel = useCallback(
-    (id: string) => {
-      setDeletingId(id);
+  const handleAction = useCallback((id: string) => {
+    setShow(true);
+    setDeletingId(id);
+  }, []);
 
-      axios
-        .delete(`/api/reservations/${id}`)
-        .then(() => {
-          toast.success("Reservation cancelled");
-          router.refresh();
-        })
-        .catch((error) => {
-          toast.error(error?.response?.data?.error);
-        })
-        .finally(() => {
-          setDeletingId("");
-        });
-    },
-    [router]
+  const handleSubmit = useCallback(() => {
+    axios
+      .delete(`/api/reservations/${deletingId}`)
+      .then(() => {
+        toast.success("Reservation cancelled");
+        setShow(false);
+        setDeletingId("");
+        router.refresh();
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.error);
+      });
+  }, [router, deletingId]);
+
+  const handleCancel = useCallback(() => {
+    setShow(false);
+    setDeletingId("");
+  }, []);
+
+  const bodyContent = (
+    <div className="justify-left">
+      <p> Are you sure you want to cancel this reservation?</p>
+    </div>
   );
 
   return (
@@ -67,12 +79,22 @@ const TripsClient: React.FC<TripsClientProps> = ({
             data={reservation.listing}
             reservation={reservation}
             actionId={reservation.id}
-            onAction={onCancel}
+            onAction={handleAction}
             disabled={deletingId === reservation.id}
             actionLabel="Cancel reservation"
             currentUser={currentUser}
           />
         ))}
+        <Modal
+          isOpen={show}
+          title="Confirm delete"
+          body={bodyContent}
+          actionLabel="Delete"
+          onSubmit={handleSubmit}
+          onClose={handleCancel}
+          secondaryAction={handleCancel}
+          secondaryActionLabel="No"
+        />
       </div>
     </Container>
   );
