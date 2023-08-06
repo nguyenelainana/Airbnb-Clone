@@ -16,7 +16,7 @@ interface ListingCardProps {
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
-  currentUser: SafeUser | null; //date object has hydration issues. Use Safeuser to prevent errors
+  currentUser?: SafeUser | null; //date object has hydration issues. Use Safe user to prevent errors
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({

@@ -14,7 +14,7 @@ import Modal from "../components/modals/Modal";
 
 interface TripsClientProps {
   reservations: SafeReservation[];
-  currentUser: SafeUser | null;
+  currentUser?: SafeUser | null;
 }
 
 const TripsClient: React.FC<TripsClientProps> = ({
