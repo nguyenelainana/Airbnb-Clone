@@ -29,12 +29,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     setIsOpen((value) => !value);
   }, []);
 
-  const openRegister = useCallback(() => {
+  const handleRegisterOpen = useCallback(() => {
     registerModal.onOpen();
     setIsOpen(false);
   }, [registerModal]);
 
-  const openLogin = useCallback(() => {
+  const handleLoginOpen = useCallback(() => {
     loginModal.onOpen();
     setIsOpen(false);
   }, [loginModal]);
@@ -163,8 +163,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               </>
             ) : (
               <>
-                <MenuItem onClick={openLogin} label="Login" />
-                <MenuItem onClick={openRegister} label="Sign up" />
+                <MenuItem onClick={handleLoginOpen} label="Login" />
+                <MenuItem onClick={handleRegisterOpen} label="Sign up" />
               </>
             )}
           </div>
