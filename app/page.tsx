@@ -24,7 +24,6 @@ const Home = async ({ searchParams }: HomeProps) => {
       </ClientOnly>
     );
   }
-  console.log("reservation", listings);
 
   return (
     <ClientOnly>
