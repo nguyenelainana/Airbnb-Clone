@@ -74,15 +74,15 @@ const AccountClient: React.FC<AccountClientProps> = ({ currentUser }) => {
   }, [currentUser]);
 
   return (
-    <div className="mx-60 mt-8 items-center justify-center">
+    <div className="lg:mx-20 pt-2 sm:px-2 md:px-30 xl:px-20 px-4 ">
       <div className="text-3xl font-semibold">
         <h1>Account</h1>
       </div>
-      <div className="flex text-lg pt-1 pb-8">
+      <div className="flex text-lg py-1 lg:pb-8 sm:pb-2">
         <div className="font-semibold">{userName}</div>
         {`, ${userEmail}`}
       </div>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {account.map((item) => (
           <AccountTiles
             key={item.title}

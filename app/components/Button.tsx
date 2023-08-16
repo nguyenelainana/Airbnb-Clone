@@ -1,5 +1,4 @@
 "use client";
-import { MouseEvent } from "react";
 import { IconType } from "react-icons";
 
 interface ButtonProps {
@@ -22,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       onClick={onClick}
+      data-testid="button"
       disabled={disabled}
       className={`
             relative 
