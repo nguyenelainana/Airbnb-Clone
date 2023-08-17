@@ -60,6 +60,7 @@ export const authOptions: AuthOptions = {
   },
   debug: process.env.NODE_ENV == "development", //enabled in development to help debug
   session: {
+    maxAge: 60 * 60,
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
